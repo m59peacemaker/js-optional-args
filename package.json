@@ -1,0 +1,25 @@
+{
+  "name": "optional-args",
+  "version": "1.0.0",
+  "description": "Wraps a function whose last argument is preceded by optional arguments so that when less arguments are passed in, missing optional arguments are filled in as `undefined`",
+  "keywords": [
+    "optional",
+    "arguments",
+    "args",
+    "function",
+    "simple",
+    "last",
+    "node",
+    "style",
+    "callback"
+  ],
+  "author": {
+    "name": "Johnny Hauser",
+    "email": "johnnyhauser@gmail.com"
+  },
+  "license": "VOL",
+  "main": "index.js",
+  "scripts": {
+    "test": "tape test/*.js"
+  }
+}
