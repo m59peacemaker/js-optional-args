@@ -1,6 +1,6 @@
 # optional-args
 
-Wraps a function whose last argument is preceded by optional arguments so that when less arguments are passed in, missing optional arguments are filled in as `undefined`
+Wraps a function whose last argument is preceded by optional arguments so that when fewer arguments are passed in, missing optional arguments are filled in as `undefined`
 
 ## Install
 
