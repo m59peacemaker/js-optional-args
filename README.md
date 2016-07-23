@@ -25,6 +25,6 @@ const myFn = optionalArgs(3, (foo, options = {}, cb) => {})
 
 ### optionalArg([argCount], fn)
 
-- `[argCount]: number, fn.length` the total number of arguments `fn` accepts, required for functions that use default parameters
-- `fn: function`
+- `argCount` (number): the total number of arguments `fn` accepts, required for functions that use default parameters.  Defaults to `fn.length`
+- `fn` (function): the function to be wrapped up
 - **returns**: `function`
