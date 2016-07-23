@@ -44,9 +44,17 @@ test('5, 3', t => {
 test('4, 3', t => {
   t.plan(1)
   function fn (a, b, c, d) {
-    t.deepEqual([a, b, c, d], [1, 2, undefined, 4])
+    t.deepEqual([...arguments], [1, 2, undefined, 4])
   }
   optionalArgs(fn)(1, 2, 4)
+})
+
+test('4, 2 - with default 3rd', t => {
+  t.plan(1)
+  function fn (a, b, c = {}, d) {
+    t.deepEqual([a, b, c, d], [1, undefined, {}, 2])
+  }
+  optionalArgs(4, fn)(1, 2)
 })
 
 test('4, 3 - with default 3rd', t => {
@@ -55,4 +63,20 @@ test('4, 3 - with default 3rd', t => {
     t.deepEqual([a, b, c, d], [1, 2, {}, 4])
   }
   optionalArgs(4, fn)(1, 2, 4)
+})
+
+test('3, 2 - when last arg has default', t => {
+  t.plan(1)
+  function fn (a, b, c = {}) {
+    t.deepEqual([a, b ,c], [1, undefined, 2])
+  }
+  optionalArgs(3, fn)(1, 2)
+})
+
+test('4, 2 - when last 2 args have deafult', t => {
+  t.plan(1)
+  function fn (a, b, c = {}, d = {}) {
+    t.deepEqual([a, b, c, d], [1, undefined, {}, 2])
+  }
+  optionalArgs(4, fn)(1, 2)
 })
