@@ -1,7 +1,7 @@
 {
   "name": "optional-args",
-  "version": "1.0.1",
-  "description": "Wraps a function whose last argument is preceded by optional arguments so that when fewer arguments are passed in, missing optional arguments are filled in as `undefined`",
+  "version": "1.1.0",
+  "description": "Wraps a function whose last argument is preceded by optional arguments so that when fewer arguments are passed in, missing optional arguments are filled in as `undefined`.",
   "keywords": [
     "optional",
     "arguments",
@@ -13,13 +13,18 @@
     "style",
     "callback"
   ],
+
+  "main": "index.js",
+  "scripts": {
+    "test": "node test"
+  },
   "author": {
     "name": "Johnny Hauser",
     "email": "johnnyhauser@gmail.com"
   },
-  "license": "VOL",
-  "main": "index.js",
-  "scripts": {
-    "test": "tape test/*.js"
-  }
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/m59peacemaker/js-optional-args"
+  },
+  "license": "VOL"
 }

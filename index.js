@@ -1,9 +1,13 @@
-const optionalArgs = (length, fn) => {
-  return (...args) => {
-    const fnLength = length || fn.length
-    const missing = Math.max(0, fnLength - args.length)
-    missing && args.splice(args.length - 1, 0, ...new Array(missing))
-    return fn(...args)
+var optionalArgs = function (length, fn) {
+  return function () {
+    var args = [].slice.call(arguments)
+    var fnLength = length || fn.length
+    var missing = Math.max(0, fnLength - args.length)
+    if (missing) {
+      var spliceArgs = [args.length - 1, 0].concat(new Array(missing))
+      args.splice.apply(args, spliceArgs)
+    }
+    return fn.apply(undefined, args)
   }
 }
 
