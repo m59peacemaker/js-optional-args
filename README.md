@@ -4,8 +4,6 @@ Wraps a function whose last argument is preceded by optional arguments so that w
 
 The is useful for functions that have an API such as `(input, options, cb)`, but the function allows `options` to be omitted so that it can be called as `(input, cb)`. Rather than having code that examines the arguments to make some optional, just wrap the function with `optionalArgs()` and it will just work.
 
-Fun fact: `optional-args` [calls itself](https://github.com/m59peacemaker/js-optional-args/blob/master/index.js#L14) to make its `argCount` parameter optional. Code is neat.
-
 ## install
 
 ```sh
@@ -17,18 +15,18 @@ npm install optional-args
 ```js
 const optionalArgs = require('optional-args')
 
-const myFn = optionalArgs((foo, options, cb) => {})
-myFn(123, function() {}) //  foo -> 123, options -> undefined, cb -> function
-myFn(function() {}) // foo -> undefined, options -> undefined, cb -> function
+// 1 optional argument, 3 total arguments
+const myFn = optionalArgs(1, 3, (input, options, cb) => {})
 
-// with default parameters, specify argument count
-const myFn = optionalArgs(3, (foo, options = {}, cb) => {})
+myFn(123, () => {}) // input -> 123, options -> undefined, cb -> function
+myFn(123)           // input -> 123, options -> undefined, cb -> undefined
 ```
 
 ## API
 
-### optionalArg([argCount], fn)
+### optionalArgs(optionalArgCount, argCount, fn)
 
-- `argCount: number, fn.length` the total number of arguments `fn` accepts. Required for functions that use default parameters since `fn.length` only counts up to the first default parameter.
+- `optionalArgCount: number` the number of arguments that are optional
+- `argCount: number` the total number of arguments `fn` accepts
 - `fn: function` the function to be wrapped so that it has optional arguments
 - **returns**: `function`

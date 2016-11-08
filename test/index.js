@@ -1,82 +1,50 @@
 const optionalArgs = require('../')
 const test = require('tape')
+const tryCatch = require('try_catch')
 
-test('0, 0', t => {
-  t.plan(1)
-  function fn () {
-    t.false(arguments.length)
-  }
-  optionalArgs(fn)()
+test('[options], cb', t => {
+  optionalArgs(1, 2, (options, cb) => t.deepEqual([options, cb], [undefined, undefined]))()
+  optionalArgs(1, 2, (options, cb) => t.deepEqual([options, cb], [undefined, 2]))(2)
+  optionalArgs(1, 2, (options, cb) => t.deepEqual([options, cb], [1, 2]))(1, 2)
+  optionalArgs(1, 2, function (options, cb) { t.deepEqual([...arguments], [1, 2, 3])})(1, 2, 3)
+  t.end()
 })
 
-test('0, 1 - should pass the arg through anyway', t => {
-  t.plan(1)
-  function fn () {
-    t.deepEqual([...arguments], [true])
-  }
-  optionalArgs(fn)(true)
+test('data, [options], cb', t => {
+  optionalArgs(1, 3, (data, options, cb) => t.deepEqual([data, options, cb], [undefined, undefined, undefined]))()
+  optionalArgs(1, 3, (data, options, cb) => t.deepEqual([data, options, cb], [1, undefined, undefined]))(1)
+  optionalArgs(1, 3, (data, options, cb) => t.deepEqual([data, options, cb], [1, undefined, 3]))(1, 3)
+  optionalArgs(1, 3, (data, options, cb) => t.deepEqual([data, options, cb], [1, 2, 3]))(1, 2, 3)
+  optionalArgs(1, 3, function (data, options, cb) { t.deepEqual([...arguments], [1, 2, 3, 4])})(1, 2, 3, 4)
+  t.end()
 })
 
-test('2, 4', t => {
-  t.plan(1)
-  function fn (a, b) {
-    t.deepEqual([...arguments], [1, 2, 3, 4])
-  }
-  optionalArgs(fn)(1, 2, 3, 4)
+test('a, b, [c], [d], [e], cb', t => {
+  optionalArgs(3, 6, (a, b, c, d, e, cb) => t.deepEqual([a, b, c, d, e, cb], [undefined, undefined, undefined, undefined, undefined, undefined]))()
+  optionalArgs(3, 6, (a, b, c, d, e, cb) => t.deepEqual([a, b, c, d, e, cb], [1, undefined, undefined, undefined, undefined, undefined]))(1)
+  optionalArgs(3, 6, (a, b, c, d, e, cb) => t.deepEqual([a, b, c, d, e, cb], [1, 2, undefined, undefined, undefined, undefined]))(1, 2)
+  optionalArgs(3, 6, (a, b, c, d, e, cb) => t.deepEqual([a, b, c, d, e, cb], [1, 2, undefined, undefined, undefined, 6]))(1, 2, 6)
+  optionalArgs(3, 6, (a, b, c, d, e, cb) => t.deepEqual([a, b, c, d, e, cb], [1, 2, 3, undefined, undefined, 6]))(1, 2, 3, 6)
+  optionalArgs(3, 6, (a, b, c, d, e, cb) => t.deepEqual([a, b, c, d, e, cb], [1, 2, 3, 4, undefined, 6]))(1, 2, 3, 4, 6)
+  optionalArgs(3, 6, (a, b, c, d, e, cb) => t.deepEqual([a, b, c, d, e, cb], [1, 2, 3, 4, 5, 6]))(1, 2, 3, 4, 5, 6)
+  optionalArgs(3, 6, function (a, b, c, d, e, cb) { t.deepEqual([...arguments], [1, 2, 3, 4, 5, 6, 7])})(1, 2, 3, 4, 5, 6, 7)
+  t.end()
 })
 
-test('3, 2', t => {
+test('function accepts 0 arguments - throw error', t => {
   t.plan(1)
-  function fn (a, b, c) {
-    t.deepEqual([...arguments], [1, undefined, 3])
-  }
-  optionalArgs(fn)(1, 3)
+  const fn = () => {}
+  tryCatch(() => optionalArgs(1, 0, fn), t.pass)
 })
 
-test('5, 3', t => {
+test('function accepts 1 argument - throw error', t => {
   t.plan(1)
-  function fn (a, b, c, d, e) {
-    t.deepEqual([...arguments], [1, 2, undefined, undefined, 5])
-  }
-  optionalArgs(fn)(1, 2, 5)
+  const fn = () => {}
+  tryCatch(() => optionalArgs(1, 1, fn), t.pass)
 })
 
-test('4, 3', t => {
+test('no optional arguments - no need for optional-args', t => {
   t.plan(1)
-  function fn (a, b, c, d) {
-    t.deepEqual([...arguments], [1, 2, undefined, 4])
-  }
-  optionalArgs(fn)(1, 2, 4)
-})
-
-test('4, 2 - with default 3rd', t => {
-  t.plan(1)
-  function fn (a, b, c = {}, d) {
-    t.deepEqual([a, b, c, d], [1, undefined, {}, 2])
-  }
-  optionalArgs(4, fn)(1, 2)
-})
-
-test('4, 3 - with default 3rd', t => {
-  t.plan(1)
-  function fn (a, b, c = {}, d) {
-    t.deepEqual([a, b, c, d], [1, 2, {}, 4])
-  }
-  optionalArgs(4, fn)(1, 2, 4)
-})
-
-test('3, 2 - when last arg has default', t => {
-  t.plan(1)
-  function fn (a, b, c = {}) {
-    t.deepEqual([a, b ,c], [1, undefined, 2])
-  }
-  optionalArgs(3, fn)(1, 2)
-})
-
-test('4, 2 - when last 2 args have deafult', t => {
-  t.plan(1)
-  function fn (a, b, c = {}, d = {}) {
-    t.deepEqual([a, b, c, d], [1, undefined, {}, 2])
-  }
-  optionalArgs(4, fn)(1, 2)
+  const fn = () => {}
+  tryCatch(() => optionalArgs(0, 2, fn), t.pass)
 })
