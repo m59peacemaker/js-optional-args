@@ -23,7 +23,6 @@ var optionalArgs = function (optionalArgCount, argCount, fn) {
       var beforeLastArg = Math.min(givenArgs.length, argCount) - 1
       var spliceAt = Math.max(startingArgCount, beforeLastArg)
       var spliceArgs = [spliceAt, 0].concat(pad)
-      console.log(givenArgs, missing, pad, spliceAt)
       givenArgs.splice.apply(givenArgs, spliceArgs)
       return fn.apply(undefined, givenArgs)
     } else {
