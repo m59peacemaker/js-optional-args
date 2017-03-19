@@ -14,7 +14,7 @@ var optionalArgs = function (optionalArgCount, argCount, fn) {
   if (optionalArgCount > argCount - 1) {
     throw new Error('"fn" accepts ' + argCount + ' arguments. "optionalArgCount" must be less than ' + argCount)
   }
-  return function () {
+  var f = function () {
     var givenArgs = [].slice.call(arguments)
     if (givenArgs.length < argCount) {
       var startingArgCount = argCount - optionalArgCount - 1
@@ -29,6 +29,8 @@ var optionalArgs = function (optionalArgCount, argCount, fn) {
       return fn.apply(undefined, arguments)
     }
   }
+  Object.defineProperty(f, 'length', {get: function() { return argCount }})
+  return f
 }
 
 module.exports = optionalArgs

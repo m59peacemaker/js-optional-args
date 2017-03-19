@@ -36,4 +36,4 @@ myFn(123)
 - `optionalArgCount: number` the number of arguments that are optional
 - `argCount: number` the total number of arguments `fn` accepts
 - `fn: function` the function to be wrapped so that it has optional arguments
-- **returns**: `function`
+- **returns**: `function` the wrapped function

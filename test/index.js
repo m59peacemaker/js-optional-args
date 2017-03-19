@@ -1,6 +1,6 @@
-const optionalArgs = require('../')
 const test = require('tape')
 const tryCatch = require('try_catch')
+const optionalArgs = require('../')
 
 test('[options], cb', t => {
   optionalArgs(1, 2, (options, cb) => t.deepEqual([options, cb], [undefined, undefined]))()
@@ -28,6 +28,17 @@ test('a, b, [c], [d], [e], cb', t => {
   optionalArgs(3, 6, (a, b, c, d, e, cb) => t.deepEqual([a, b, c, d, e, cb], [1, 2, 3, 4, undefined, 6]))(1, 2, 3, 4, 6)
   optionalArgs(3, 6, (a, b, c, d, e, cb) => t.deepEqual([a, b, c, d, e, cb], [1, 2, 3, 4, 5, 6]))(1, 2, 3, 4, 5, 6)
   optionalArgs(3, 6, function (a, b, c, d, e, cb) { t.deepEqual([...arguments], [1, 2, 3, 4, 5, 6, 7])})(1, 2, 3, 4, 5, 6, 7)
+  t.end()
+})
+
+test('returned fn.length === argCount', t => {
+  t.equal(optionalArgs(1, 3, function (a, b, c) {}).length, 3)
+  t.equal(optionalArgs(1, 3, function () {}).length, 3)
+  t.equal(optionalArgs(1, 3, (a, b, c) => {}).length, 3)
+  t.equal(optionalArgs(1, 3, () => {}).length, 3)
+  t.equal(optionalArgs(2, 3, (a, b, c) => {}).length, 3)
+  t.equal(optionalArgs(2, 5, (a, b, c, d, e) => {}).length, 5)
+  t.equal(optionalArgs(2, 5, (a, b, c, d) => {}).length, 5)
   t.end()
 })
 
