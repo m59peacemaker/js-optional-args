@@ -31,7 +31,7 @@ myFn(123)
 
 ## API
 
-### optionalArgs(optionalArgCount, argCount, fn)
+### `optionalArgs(optionalArgCount, argCount, fn)`
 
 - `optionalArgCount: number` the number of arguments that are optional
 - `argCount: number` the total number of arguments `fn` accepts
