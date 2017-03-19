@@ -1,6 +1,6 @@
 {
   "name": "optional-args",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "Wraps a function whose last argument is preceded by optional arguments so that when fewer arguments are passed in, missing optional arguments are filled in as `undefined`.",
   "keywords": [
     "optional",

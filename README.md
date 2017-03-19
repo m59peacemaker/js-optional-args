@@ -7,7 +7,7 @@ The is useful for functions that have an API such as `(input, options, cb)`, but
 ## install
 
 ```sh
-npm install optional-args
+$ npm install optional-args
 ```
 
 ## example
@@ -18,8 +18,15 @@ const optionalArgs = require('optional-args')
 // 1 optional argument, 3 total arguments
 const myFn = optionalArgs(1, 3, (input, options, cb) => {})
 
-myFn(123, () => {}) // input -> 123, options -> undefined, cb -> function
-myFn(123)           // input -> 123, options -> undefined, cb -> undefined
+myFn(123, () => {})
+// input === 123
+// options === undefined
+// typeof cb === 'function'
+
+myFn(123)
+// input === 123
+// options === undefined
+// cb === undefined
 ```
 
 ## API
